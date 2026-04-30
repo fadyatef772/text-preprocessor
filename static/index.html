@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Preprocessor</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0f172a;
+            color: #e2e8f0;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            color: #38bdf8;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #94a3b8;
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+        }
+
+        .card {
+            background: #1e293b;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid #334155;
+        }
+
+        .card-title {
+            font-size: 1rem;
+            color: #94a3b8;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        textarea {
+            width: 100%;
+            height: 120px;
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            color: #e2e8f0;
+            padding: 0.75rem;
+            font-size: 1rem;
+            resize: vertical;
+            font-family: inherit;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #38bdf8;
+        }
+
+        .controls-row {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        select {
+            background: #0f172a;
+            border: 1px solid #334155;
+            color: #e2e8f0;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.95rem;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: #38bdf8;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 0.75rem;
+        }
+
+        .option-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+
+        .option-item input[type="checkbox"] {
+            accent-color: #38bdf8;
+            width: 16px;
+            height: 16px;
+        }
+
+        .option-item label {
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 0.75rem;
+            background: #38bdf8;
+            color: #0f172a;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn:hover {
+            background: #7dd3fc;
+        }
+
+        .btn:disabled {
+            background: #334155;
+            color: #64748b;
+            cursor: not-allowed;
+        }
+
+        .result-area {
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 0.75rem;
+            min-height: 80px;
+            white-space: pre-wrap;
+            word-break: break-word;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .steps-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.75rem;
+        }
+
+        .step-badge {
+            background: #334155;
+            color: #38bdf8;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+
+        .error-text {
+            color: #f87171;
+        }
+
+        .comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .comparison-label {
+            font-size: 0.85rem;
+            color: #64748b;
+            margin-bottom: 0.5rem;
+        }
+
+        @media (max-width: 600px) {
+            .comparison {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Multilingual Text Preprocessor</h1>
+        <p class="subtitle">Clean and normalize English and Arabic text</p>
+
+        <!-- Input Section -->
+        <div class="card">
+            <div class="card-title">Input Text</div>
+            <textarea
+                id="inputText"
+                placeholder="Type or paste your text here..."
+            ></textarea>
+        </div>
+
+        <!-- Controls Section -->
+        <div class="card">
+            <div class="card-title">Settings</div>
+            <div class="controls-row" style="margin-bottom: 1rem;">
+                <select id="language">
+                    <option value="en">English</option>
+                    <option value="ar">Arabic (العربية)</option>
+                </select>
+            </div>
+
+            <div class="card-title">Preprocessing Options</div>
+            <div class="options-grid">
+                <div class="option-item">
+                    <input type="checkbox" id="normalize" checked>
+                    <label for="normalize">Normalize</label>
+                </div>
+                <div class="option-item">
+                    <input type="checkbox" id="remove_punctuation" checked>
+                    <label for="remove_punctuation">Remove Punctuation</label>
+                </div>
+                <div class="option-item">
+                    <input type="checkbox" id="remove_numbers">
+                    <label for="remove_numbers">Remove Numbers</label>
+                </div>
+                <div class="option-item">
+                    <input type="checkbox" id="remove_stopwords">
+                    <label for="remove_stopwords">Remove Stopwords</label>
+                </div>
+                <div class="option-item">
+                    <input type="checkbox" id="stemming">
+                    <label for="stemming">Stemming</label>
+                </div>
+                <div class="option-item">
+                    <input type="checkbox" id="lemmatize">
+                    <label for="lemmatize">Lemmatize</label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Process Button -->
+        <button class="btn" id="processBtn" onclick="processText()">
+            Process Text
+        </button>
+
+        <!-- Results Section -->
+        <div class="card" id="resultCard" style="display: none; margin-top: 1.5rem;">
+            <div class="card-title">Results</div>
+
+            <div class="comparison">
+                <div>
+                    <div class="comparison-label">Original</div>
+                    <div class="result-area" id="originalResult"></div>
+                </div>
+                <div>
+                    <div class="comparison-label">Processed</div>
+                    <div class="result-area" id="processedResult"></div>
+                </div>
+            </div>
+
+            <div id="stepsContainer" style="margin-top: 1rem;">
+                <div class="comparison-label">Applied Steps</div>
+                <div class="steps-list" id="stepsList"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        async function processText() {
+            const text = document.getElementById("inputText").value.trim();
+            const language = document.getElementById("language").value;
+            const btn = document.getElementById("processBtn");
+
+            // Validate input
+            if (!text) {
+                alert("Please enter some text to process.");
+                return;
+            }
+
+            // Build options from checkboxes
+            const options = {
+                normalize: document.getElementById("normalize").checked,
+                remove_punctuation: document.getElementById("remove_punctuation").checked,
+                remove_numbers: document.getElementById("remove_numbers").checked,
+                remove_stopwords: document.getElementById("remove_stopwords").checked,
+                stemming: document.getElementById("stemming").checked,
+                lemmatize: document.getElementById("lemmatize").checked,
+            };
+
+            // Disable button while processing
+            btn.disabled = true;
+            btn.textContent = "Processing...";
+
+            try {
+                const response = await fetch("/api/preprocess", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ text, language, options }),
+                });
+
+                if (!response.ok) {
+                    const error = await response.json();
+                    throw new Error(error.detail || "Unknown error");
+                }
+
+                const data = await response.json();
+                displayResults(data);
+
+            } catch (error) {
+                document.getElementById("resultCard").style.display = "block";
+                document.getElementById("originalResult").textContent = text;
+                document.getElementById("processedResult").innerHTML =
+                    `<span class="error-text">Error: ${error.message}</span>`;
+                document.getElementById("stepsList").innerHTML = "";
+            } finally {
+                btn.disabled = false;
+                btn.textContent = "Process Text";
+            }
+        }
+
+        function displayResults(data) {
+            const resultCard = document.getElementById("resultCard");
+            resultCard.style.display = "block";
+
+            document.getElementById("originalResult").textContent = data.original_text;
+            document.getElementById("processedResult").textContent = data.processed_text;
+
+            const stepsList = document.getElementById("stepsList");
+            stepsList.innerHTML = "";
+
+            if (data.applied_steps.length === 0) {
+                stepsList.innerHTML = '<span style="color: #64748b;">No steps applied</span>';
+            } else {
+                data.applied_steps.forEach(step => {
+                    const badge = document.createElement("span");
+                    badge.className = "step-badge";
+                    badge.textContent = step;
+                    stepsList.appendChild(badge);
+                });
+            }
+        }
+    </script>
+</body>
+</html>
