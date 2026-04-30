@@ -220,6 +220,14 @@
                     <label for="normalize">Normalize</label>
                 </div>
                 <div class="option-item">
+                    <input type="checkbox" id="remove_urls">
+                    <label for="remove_urls">Remove URLs</label>
+                </div>
+                <div class="option-item">
+                    <input type="checkbox" id="remove_emojis">
+                    <label for="remove_emojis">Remove Emojis</label>
+                </div>
+                <div class="option-item">
                     <input type="checkbox" id="remove_punctuation" checked>
                     <label for="remove_punctuation">Remove Punctuation</label>
                 </div>
@@ -284,6 +292,8 @@
             // Build options from checkboxes
             const options = {
                 normalize: document.getElementById("normalize").checked,
+                remove_urls: document.getElementById("remove_urls").checked,
+                remove_emojis: document.getElementById("remove_emojis").checked,
                 remove_punctuation: document.getElementById("remove_punctuation").checked,
                 remove_numbers: document.getElementById("remove_numbers").checked,
                 remove_stopwords: document.getElementById("remove_stopwords").checked,

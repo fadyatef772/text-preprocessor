@@ -3,6 +3,8 @@ from typing import Optional
 
 class PreprocessingOptions(BaseModel):
     normalize: Optional[bool] = Field(default=False, description="Lowercase and normalize the text.")
+    remove_urls: Optional[bool] = Field(default=False, description="Remove URLs from text.")
+    remove_emojis: Optional[bool] = Field(default=False, description="Remove emojis and special Unicode symbols.")
     remove_punctuation: Optional[bool] = Field(default=False, description="Remove punctuation characters.")
     remove_numbers: Optional[bool] = Field(default=False, description="Remove numeric characters.")
     remove_stopwords: Optional[bool] = Field(default=False, description="Remove stopwords.")
