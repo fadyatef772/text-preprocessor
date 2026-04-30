@@ -15,6 +15,7 @@ from src.utils.cleaning import (
     remove_urls,
     remove_emojis,
     remove_hashtags,
+    normalize_repeated_chars,
 )
 
 
@@ -26,10 +27,12 @@ lemmatizer = WordNetLemmatizer()
 def process_english(text: str, options: dict) -> tuple[str, list[str]]:
     applied_steps = []
 
-    # Step 1: Lowercase
+    # Step 1: Lowercase + repeated char normalization
     if options.get("normalize", False):
         text = text.lower()
         applied_steps.append("lowercase")
+        text = normalize_repeated_chars(text)
+        applied_steps.append("normalize_repeated_chars")
 
     # Step 2: Remove URLs (before punctuation — URLs contain punctuation)
     if options.get("remove_urls", False):

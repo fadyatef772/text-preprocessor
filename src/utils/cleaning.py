@@ -54,3 +54,10 @@ def remove_emojis(text: str) -> str:
 def remove_hashtags(text: str) -> str:
     """Remove hashtag symbols but keep the word."""
     return text.replace('#', '')
+
+
+def normalize_repeated_chars(text: str) -> str:
+    """Reduce any character repeated 3+ times to 2 occurrences.
+    Example: 'soooo cooool' -> 'soo cool'
+    """
+    return re.sub(r'(.)\1{2,}', r'\1\1', text)

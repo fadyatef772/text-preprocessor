@@ -10,6 +10,7 @@ from src.utils.cleaning import (
     normalize_whitespace,
     remove_urls,
     remove_emojis,
+    normalize_repeated_chars,
 )
 from src.utils.arabic_cleaning import (
     remove_tashkeel,
@@ -48,6 +49,9 @@ def process_arabic(text: str, options: dict) -> tuple[str, list[str]]:
 
         text = normalize_ya(text)
         applied_steps.append("normalize_ya")
+
+        text = normalize_repeated_chars(text)
+        applied_steps.append("normalize_repeated_chars")
 
     # Step 2: Remove URLs (before punctuation — URLs contain punctuation)
     if options.get("remove_urls", False):
