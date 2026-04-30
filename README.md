@@ -1,21 +1,25 @@
 # Multilingual Text Preprocessor
 
-A modular text preprocessing API supporting English and Arabic.
+A modular REST API for preprocessing English and Arabic text, with a web GUI and configurable pipeline.
 
 ## Features
-- English: lowercase, punctuation removal, stopwords, stemming, lemmatization
-- Arabic: tashkeel, tatweel, alef normalization, smart stopwords, stemming
-- Web GUI with real-time processing
-- Configurable pipeline via JSON
+
+- **English**: lowercase, punctuation removal, stopword filtering, stemming, lemmatization
+- **Arabic**: tashkeel removal, tatweel removal, alef normalization, stopword filtering, stemming
+- **Web GUI** with real-time processing
+- **Configurable pipeline** via JSON request body
+- **Swagger UI** at `/docs`
 
 ## Run with Docker
 
-Build:
+```bash
+# Build
 docker build -t text-preprocessor .
 
-Run:
+# Run
 docker run -p 8000:8000 text-preprocessor
+```
 
-Open: http://localhost:8000
+Open the app: [http://localhost:8000](http://localhost:8000)
 
-API Docs: http://localhost:8000/docs
+API docs: [http://localhost:8000/docs](http://localhost:8000/docs)
