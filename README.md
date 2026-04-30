@@ -1,3 +1,13 @@
+---
+title: Multilingual Text Preprocessor
+emoji: 🔤
+colorFrom: blue
+colorTo: purple
+sdk: docker
+app_port: 7860
+pinned: false
+---
+
 # Multilingual Text Preprocessor
 
 A modular REST API for preprocessing English and Arabic text, with a web GUI and configurable pipeline.
@@ -17,9 +27,9 @@ A modular REST API for preprocessing English and Arabic text, with a web GUI and
 docker build -t text-preprocessor .
 
 # Run
-docker run -p 8000:8000 text-preprocessor
+docker run -p 7860:7860 text-preprocessor
 ```
 
-Open the app: [http://localhost:8000](http://localhost:8000)
+Open the app: [http://localhost:7860](http://localhost:7860)
 
-API docs: [http://localhost:8000/docs](http://localhost:8000/docs)
+API docs: [http://localhost:7860/docs](http://localhost:7860/docs)
