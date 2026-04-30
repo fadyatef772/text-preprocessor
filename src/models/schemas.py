@@ -2,10 +2,12 @@ from pydantic import BaseModel, Field
 from typing import Optional 
 
 class PreprocessingOptions(BaseModel):
-    remove_stopwords: Optional[bool] = Field(default=False, description="Whether to remove stopwords from the text.")
-    lemmatization: Optional[bool] = Field(default=False, description="Whether to apply lemmatization to the text.")
-    stemming: Optional[bool] = Field(default=False, description="Whether to apply stemming to the text.")
-    lowercase: Optional[bool] = Field(default=False, description="Whether to convert the text to lowercase.")
+    normalize: Optional[bool] = Field(default=False, description="Lowercase and normalize the text.")
+    remove_punctuation: Optional[bool] = Field(default=False, description="Remove punctuation characters.")
+    remove_numbers: Optional[bool] = Field(default=False, description="Remove numeric characters.")
+    remove_stopwords: Optional[bool] = Field(default=False, description="Remove stopwords.")
+    stemming: Optional[bool] = Field(default=False, description="Apply stemming.")
+    lemmatize: Optional[bool] = Field(default=False, description="Apply lemmatization.")
     
     
 class PreprocessRequest(BaseModel):
